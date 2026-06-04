@@ -28,32 +28,17 @@ def fetch_transcript(url: str) -> dict:
         return {"success": False, "error": "YouTube Shorts are not supported. Please use a regular lecture video."}
 
     try:
-        # cmd = [
-        #     "yt-dlp",
-        #     "--write-auto-sub",
-        #     "--sub-lang", "en",
-        #     "--skip-download",
-        #     "--sub-format", "json3",
-        #     "--output", f"/tmp/{video_id}",
-        #     f"https://www.youtube.com/watch?v={video_id}"
-        # ]
-
         cmd = [
-            "python", "-m", "yt_dlp",        # Fix 1: use module instead of binary
+            "yt-dlp",
             "--write-auto-sub",
             "--sub-lang", "en",
             "--skip-download",
             "--sub-format", "json3",
-            "--add-header", "User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",  # Fix 2: browser user-agent
             "--output", f"/tmp/{video_id}",
             f"https://www.youtube.com/watch?v={video_id}"
         ]
 
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
-
-        # Fix 3: log what yt-dlp actually says
-        print("yt-dlp stdout:", result.stdout)
-        print("yt-dlp stderr:", result.stderr)
 
         import glob
         sub_files = glob.glob(f"/tmp/{video_id}*.json3")
