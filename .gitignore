@@ -14,3 +14,4 @@ venv/
 
 # Local / temp
 /tmp/
+.env
