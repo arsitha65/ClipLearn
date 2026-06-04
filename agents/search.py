@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def get_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # In-memory ChromaDB client
 chroma_client = chromadb.Client()
@@ -68,6 +69,7 @@ def index_transcript(transcript_data: dict, video_id: str) -> dict:
 def search_transcript(question: str, video_id: str, language: str = "English") -> dict:
     """Agent 3 - Search: Find the moment in the lecture that answers the question"""
     
+    client = get_client()
     try:
         collection_name = f"video_{video_id}"
         collection = chroma_client.get_collection(collection_name)

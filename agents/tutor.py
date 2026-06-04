@@ -4,10 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def get_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_study_materials(transcript_data: dict, language: str = "English") -> dict:
     """Agent 2 - Tutor: Generate study materials from transcript"""
+
+    client = get_client()
     
     if not transcript_data.get("success"):
         return {"success": False, "error": "No valid transcript provided"}

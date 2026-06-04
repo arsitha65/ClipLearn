@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def get_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 SUPPORTED_LANGUAGES = [
     "Spanish", "French", "German", "Chinese", "Japanese",
@@ -14,6 +15,8 @@ SUPPORTED_LANGUAGES = [
 
 def translate_content(content: dict, target_language: str) -> dict:
     """Agent 4 - Translator: Translate all study materials in one API call"""
+
+    client = get_client()
     
     if target_language not in SUPPORTED_LANGUAGES:
         return {"success": False, "error": f"Language not supported. Choose from: {', '.join(SUPPORTED_LANGUAGES)}"}

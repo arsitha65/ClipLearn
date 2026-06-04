@@ -4,10 +4,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+def get_client():
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def audit_lecture(transcript_data: dict, language: str = "English") -> dict:
     """Agent 5 - Faculty Auditor: Audit lecture across 4 dimensions"""
+
+    client = get_client()
     
     if not transcript_data.get("success"):
         return {"success": False, "error": "No valid transcript provided"}
